@@ -25,17 +25,13 @@ bulk download endpoint unless the BVB agreement explicitly permits it.
 
 ## Provider selection
 
-Development defaults to the demo provider. Production remains in demo mode
-until the BVB agreement and technical specification are available.
-
-```env
-MARKET_DATA_PROVIDER=demo
-```
+The public terminal uses TradingView-hosted widgets for actual BVB charts while
+the direct BVB agreement is pending. The normalized API does not fall back to
+synthetic values.
 
 After the adapter is completed and credentials are configured in Vercel:
 
 ```env
-MARKET_DATA_PROVIDER=bvb
 BVB_MARKET_DATA_URL=...
 BVB_MARKET_DATA_USERNAME=...
 BVB_MARKET_DATA_PASSWORD=...

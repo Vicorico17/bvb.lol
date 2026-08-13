@@ -13,11 +13,12 @@ The open-source BVB terminal Romania deserves.
 
 ## Data policy
 
-The current interface contains demo data. The production app must only display data where its source and redistribution terms are known. BVB offers delayed data on its public site and licenses delayed and real-time redistribution separately. See [BVB's data-vending information](https://www.bvb.ro/Services/DataVending/ForDataVendors).
+The interface does not contain demo market figures. Actual BVB prices and charts are displayed through official TradingView widgets. Direct BVB Level 1/Level 2 data remains unavailable until redistribution is licensed. See [BVB's data-vending information](https://www.bvb.ro/Services/DataVending/ForDataVendors).
 
-The app now has a typed provider boundary and a normalized market endpoint at
-`GET /api/markets/:symbol`. It defaults to demo mode; licensed credentials are
-never exposed to the browser. See [the integration guide](docs/DATA_INTEGRATION.md).
+The app also has a typed provider boundary and a normalized market endpoint at
+`GET /api/markets/:symbol` ready for licensed BVB access. Until configured, it
+returns unavailable rather than synthetic data. Licensed credentials are never
+exposed to the browser. See [the integration guide](docs/DATA_INTEGRATION.md).
 
 ## Local development
 

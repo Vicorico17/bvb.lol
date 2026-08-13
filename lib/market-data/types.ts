@@ -1,4 +1,4 @@
-export type MarketDataMode = "demo" | "delayed" | "realtime";
+export type MarketDataMode = "delayed" | "realtime";
 
 export type PriceLevel = {
   price: number;

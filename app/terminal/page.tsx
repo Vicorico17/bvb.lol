@@ -1,19 +1,63 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { TradingViewWidget } from "@/app/components/tradingview-widget";
 import "./terminal.css";
-import { getMarketSnapshot } from "@/lib/market-data";
 
-const price = (value: number) => value < 1 ? value.toFixed(4) : value.toFixed(2);
-const signed = (value: number) => `${value >= 0 ? "+" : "−"}${Math.abs(value).toFixed(2)}%`;
-const compactRon = (value: number) => `${new Intl.NumberFormat("en", { maximumFractionDigits: 1, notation: "compact" }).format(value)} RON`;
+const symbols = [
+  { symbol: "BVB:H2O", ticker: "H2O", name: "Hidroelectrica" },
+  { symbol: "BVB:TLV", ticker: "TLV", name: "Banca Transilvania" },
+  { symbol: "BVB:SNP", ticker: "SNP", name: "OMV Petrom" },
+  { symbol: "BVB:SNG", ticker: "SNG", name: "Romgaz" },
+  { symbol: "BVB:SNN", ticker: "SNN", name: "Nuclearelectrica" },
+];
 
-function Chart(){return <svg className="chart" viewBox="0 0 700 330" preserveAspectRatio="none"><g className="grid">{[30,95,160,225,290].map(y=><path d={`M0 ${y}H700`} key={y}/>)}</g><path className="area" d="M0 275 C50 240 85 270 125 220S185 235 230 160S300 205 345 128S410 150 470 73S545 105 610 38S660 48 700 13V330H0Z"/><path className="line" d="M0 275 C50 240 85 270 125 220S185 235 230 160S300 205 345 128S410 150 470 73S545 105 610 38S660 48 700 13"/>{[50,100,150,200,250,300,350,400,450,500,550,600,650].map((x,i)=><g className="candle" key={x}><path d={`M${x} ${245-i*16}v${40+i%3*12}`}/><rect x={x-6} y={240-i*16} width="12" height={i===7?9:22}/></g>)}</svg>}
+export default function Terminal() {
+  const [active, setActive] = useState(symbols[0]);
+  const chartConfig = useMemo(() => ({
+    autosize: true,
+    symbol: active.symbol,
+    interval: "15",
+    timezone: "Europe/Bucharest",
+    theme: "dark",
+    backgroundColor: "rgba(16, 23, 19, 1)",
+    gridColor: "rgba(42, 53, 44, 0.45)",
+    style: "1",
+    locale: "en",
+    allow_symbol_change: true,
+    calendar: false,
+    support_host: "https://www.tradingview.com",
+  }), [active]);
+  const infoConfig = useMemo(() => ({
+    symbol: active.symbol,
+    width: "100%",
+    locale: "en",
+    colorTheme: "dark",
+    isTransparent: true,
+  }), [active]);
+  const overviewConfig = useMemo(() => ({
+    colorTheme: "dark",
+    dateRange: "1D",
+    showChart: true,
+    locale: "en",
+    width: "100%",
+    height: "100%",
+    isTransparent: true,
+    showSymbolLogo: false,
+    tabs: [{
+      title: "BVB watchlist",
+      symbols: symbols.map((item) => ({ s: item.symbol, d: item.ticker })),
+    }],
+  }), []);
 
-export default async function Terminal(){
-  const market = await getMarketSnapshot("H2O");
-  const bestAsk = Math.min(...market.asks.map((level) => level.price));
-  const bestBid = Math.max(...market.bids.map((level) => level.price));
-  const spread = bestAsk - bestBid;
-  const spreadPercent = bestBid ? (spread / bestBid) * 100 : 0;
-  const book = [...market.asks, ...market.bids];
-
-  return <main className="terminal"><header><a className="mark" href="/">bvb<span>.lol</span></a><button className="selector"><b>{market.symbol}</b> {market.name}⌄</button><div className="headTools"><button>⌕ Search</button><button>◐ Theme</button><button className="lime">＋ Watchlist</button></div></header><div className="stats"><b>{market.symbol} <span>{market.name}</span></b><strong>{price(market.last)} <small>{market.currency}</small></strong><em className={market.changePercent < 0 ? "red" : ""}>{market.change >= 0 ? "+" : ""}{market.change.toFixed(2)} ({signed(market.changePercent)})</em><span>HIGH <b>{price(market.high)}</b></span><span>LOW <b>{price(market.low)}</b></span><span>VOLUME <b>{compactRon(market.volumeValue)}</b></span><i>● {market.mode.toUpperCase()} DATA · {market.delayMinutes} MIN</i></div><div className="layout"><aside className="watchlist"><label>WATCHLIST <button>＋</button></label>{market.watchlist.map((item)=><button className={item.symbol===market.symbol?'current':''} key={item.symbol}><b>{item.symbol}</b><span>{price(item.price)}<em className={item.changePercent < 0?'red':''}>{signed(item.changePercent)}</em></span></button>)}<p>Saved locally.<br/>No account needed.</p></aside><section className="chartPanel"><div className="tabs"><div><button className="selected">Chart</button><button>Info</button><button>Filings <mark>{market.events.filter((event) => event.type === "filing").length}</mark></button></div><div><button>1D</button><button className="selected">1W</button><button>1M</button><button>1Y</button></div></div><div className="caption"><span>{market.symbol} / {market.currency}</span><span>O {price(market.open)}　H {price(market.high)}　L {price(market.low)}　<b>C {price(market.last)}</b></span></div><Chart/><div className="axis"><span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span><span>17:00</span></div></section><section className="orderbook"><label>ORDER BOOK <span>{market.asks.length} levels</span></label><div className="bookHead"><span>Price</span><span>Size</span></div>{book.map((level,index)=><div className={index<market.asks.length?'ask':'bid'} key={`${index}-${level.price}`} style={{"--w":`${30+index*6}%`} as React.CSSProperties}><b>{price(level.price)}</b><span>{level.size.toLocaleString("en")}</span></div>)}<div className="spread"><b>{price(market.last)}</b> Spread {price(spread)} · {spreadPercent.toFixed(2)}%</div><p>{market.mode === "demo" ? "Illustrative depth." : `Source: ${market.source}.`} Display subject to BVB data rights.</p></section><aside className="context"><label>MARKET CONTEXT <button>↗</button></label>{market.events.map((event)=><article key={event.id}><mark>{event.type.toUpperCase()}</mark><b>{event.title}</b><span>{event.detail}</span></article>)}</aside><section className="trades"><div className="tradeTabs"><button className="selected">Recent trades</button><button>My alerts <mark>0</mark></button><button>About {market.symbol}</button></div><div className="tradeHead"><span>Time</span><span>Price ({market.currency})</span><span>Size</span></div>{market.trades.map((trade)=><div className="trade" key={trade.id}><span>{trade.timestamp}</span><b className={trade.direction==='down'?'red':''}>{price(trade.price)}</b><span>{trade.size.toLocaleString("en")}</span></div>)}</section></div><footer><span>● {market.mode.toUpperCase()} MODE · as of {new Date(market.asOf).toLocaleString("ro-RO")}</span><span>Read-only workspace · Not investment advice</span><a href="/">About bvb.lol ↗</a></footer></main>
+  return <main className="terminal real-terminal">
+    <header><a className="mark" href="/">bvb<span>.lol</span></a><div className="selector"><b>{active.ticker}</b> {active.name}</div><div className="headTools"><a href="https://github.com/Vicorico17/bvb.lol" target="_blank">GitHub ↗</a><span className="lime">ACTUAL MARKET DATA</span></div></header>
+    <div className="real-source"><span>Market data and charts provided by TradingView</span><span>Quotes may be delayed according to exchange rules</span><a href={`https://www.tradingview.com/symbols/${active.symbol.replace(":", "-")}/`} target="_blank">Open source page ↗</a></div>
+    <div className="real-layout">
+      <aside className="real-watchlist"><label>BVB INSTRUMENTS</label>{symbols.map((item) => <button className={item.symbol === active.symbol ? "current" : ""} onClick={() => setActive(item)} key={item.symbol}><b>{item.ticker}</b><span>{item.name}</span></button>)}<div className="watch-widget"><TradingViewWidget kind="market-overview" config={overviewConfig} /></div></aside>
+      <section className="real-main"><div className="live-symbol"><TradingViewWidget key={`info-${active.symbol}`} kind="symbol-info" config={infoConfig} /></div><div className="live-chart"><TradingViewWidget key={`chart-${active.symbol}`} kind="advanced-chart" config={chartConfig} /></div></section>
+      <aside className="real-side"><label>MARKET DEPTH</label><div className="unavailable"><i>LEVEL 2</i><h2>Order book awaiting BVB licence</h2><p>We will not simulate bid/ask depth. WebTop5 will be connected here after BVB grants redistribution rights.</p><a href="https://www.bvb.ro/Services/DataVending/ForProfessionals" target="_blank">BVB data products ↗</a></div><label>DATA STATUS</label><dl><div><dt>Prices & chart</dt><dd className="okay">ACTUAL</dd></div><div><dt>Provider</dt><dd>TradingView</dd></div><div><dt>Order book</dt><dd className="pending">PENDING</dd></div><div><dt>Trade execution</dt><dd>READ-ONLY</dd></div></dl></aside>
+    </div>
+    <footer><span>● ACTUAL BVB DATA VIA TRADINGVIEW</span><span>Read-only workspace · Not investment advice</span><a href="/">About bvb.lol ↗</a></footer>
+  </main>;
 }

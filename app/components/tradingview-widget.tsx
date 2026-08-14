@@ -2,12 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
-type WidgetKind = "advanced-chart" | "symbol-info" | "market-overview";
+type WidgetKind = "advanced-chart" | "symbol-info" | "market-overview" | "company-profile" | "financials";
 
 const scripts: Record<WidgetKind, string> = {
   "advanced-chart": "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js",
   "symbol-info": "https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js",
   "market-overview": "https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js",
+  "company-profile": "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js",
+  "financials": "https://s3.tradingview.com/external-embedding/embed-widget-financials.js",
 };
 
 export function TradingViewWidget({

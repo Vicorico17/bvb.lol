@@ -20,6 +20,11 @@ The app also has a typed provider boundary and a normalized market endpoint at
 returns unavailable rather than synthetic data. Licensed credentials are never
 exposed to the browser. See [the integration guide](docs/DATA_INTEGRATION.md).
 
+The terminal includes the complete BVB regulated-market equity catalogue
+captured from BVB on 2026-08-14, frequently followed AeRO issuers, and direct
+lookup for any other `BVB:<ticker>` supported by TradingView. Company profiles
+and financial statements are displayed through TradingView-hosted widgets.
+
 ## Local development
 
 ```bash

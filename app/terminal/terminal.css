@@ -3,3 +3,47 @@
 .real-terminal header .selector{border:0;padding:0}.real-terminal .headTools{align-items:center}.real-terminal .headTools a{color:#91a091;font:10px 'DM Mono',monospace;padding:7px 10px}.real-terminal .headTools .lime{border-radius:4px;padding:7px 9px;font:9px 'DM Mono',monospace}.real-source{height:39px;border-bottom:1px solid #2d382f;display:flex;align-items:center;gap:27px;padding:0 18px;color:#859486;font:9px 'DM Mono',monospace}.real-source span:first-child{color:#c4d1c3}.real-source a{margin-left:auto;color:#c9f34b}.real-layout{display:grid;grid-template-columns:205px minmax(500px,1fr) 260px;height:calc(100vh - 126px);min-height:640px}.real-layout>*,.real-main>*{border-right:1px solid #2d382f}.real-watchlist,.real-side{overflow:hidden}.real-watchlist>label,.real-side>label{height:39px;display:block;padding:13px 12px 0;border-bottom:1px solid #293329;color:#829083;font:9px 'DM Mono',monospace;letter-spacing:.5px}.real-watchlist>button{width:100%;height:50px;background:transparent;border:0;border-bottom:1px solid #222d24;color:#dce5da;text-align:left;padding:8px 12px;display:flex;flex-direction:column;gap:3px}.real-watchlist>button b{font:500 11px 'DM Mono',monospace}.real-watchlist>button span{font-size:10px;color:#7f8e80}.real-watchlist>button.current{background:#1e2b20;border-left:2px solid #c9f34b;padding-left:10px}.watch-widget{height:calc(100% - 289px);min-height:300px;border-top:1px solid #2d382f}.watch-widget>div,.live-symbol>div,.live-chart>div{height:100%;width:100%}.real-main{display:grid;grid-template-rows:118px 1fr;min-width:0}.live-symbol{border-bottom:1px solid #2d382f;overflow:hidden}.live-chart{min-height:500px;overflow:hidden}.unavailable{margin:16px 13px 22px;padding:18px;border:1px dashed #455247;border-radius:6px;background:#151e18}.unavailable i{font:9px 'DM Mono',monospace;color:#e1b96a;font-style:normal}.unavailable h2{font:600 19px/1.18 'DM Sans',sans-serif;letter-spacing:-.5px;margin:14px 0 9px;color:#edf2eb}.unavailable p{font:11px/1.55 'DM Sans',sans-serif;color:#91a092}.unavailable a{display:inline-block;margin-top:8px;color:#c9f34b;font:9px 'DM Mono',monospace}.real-side dl{margin:0;padding:4px 12px}.real-side dl div{display:flex;justify-content:space-between;border-bottom:1px solid #273229;padding:12px 0;font:9px 'DM Mono',monospace}.real-side dt{color:#879588}.real-side dd{margin:0;color:#cbd4c9}.real-side dd.okay{color:#87d970}.real-side dd.pending{color:#e6bc6b}@media(max-width:900px){.real-layout{grid-template-columns:160px minmax(450px,1fr)}.real-side{display:none}}@media(max-width:700px){.real-terminal header{padding:0 12px}.real-terminal .headTools a,.real-terminal .headTools .lime,.real-source span:nth-child(2){display:none}.real-source{gap:6px;padding:0 12px}.real-layout{display:block;height:calc(100vh - 126px);min-height:520px}.real-watchlist{height:51px;display:flex;overflow-x:auto;border-bottom:1px solid #2d382f}.real-watchlist>label,.watch-widget{display:none}.real-watchlist>button{min-width:80px;height:50px}.real-main{height:calc(100% - 51px);grid-template-rows:110px 1fr}.live-chart{min-height:380px}}
 
 .real-layout{height:auto;min-height:calc(100vh - 126px);align-items:start}.real-watchlist{height:calc(100vh - 126px);position:sticky;top:0;display:flex;flex-direction:column}.symbol-search{height:42px;display:flex;border-bottom:1px solid #293329;padding:7px}.symbol-search input{width:100%;min-width:0;background:#111914;border:1px solid #344035;border-radius:4px 0 0 4px;color:#e0e8de;padding:0 8px;font:9px 'DM Mono',monospace;outline:0}.symbol-search input:focus{border-color:#8baa34}.symbol-search button{width:30px;border:0;border-radius:0 4px 4px 0;background:#c9f34b;color:#142015}.company-list{flex:1;overflow-y:auto;min-height:250px}.company-list>button{position:relative;width:100%;min-height:48px;background:transparent;border:0;border-bottom:1px solid #222d24;color:#dce5da;text-align:left;padding:8px 40px 8px 12px;display:flex;flex-direction:column;gap:3px}.company-list>button b{font:500 11px 'DM Mono',monospace}.company-list>button span{font-size:9px;color:#7f8e80;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.company-list>button i{position:absolute;right:8px;top:17px;color:#657466;font:8px 'DM Mono',monospace;font-style:normal}.company-list>button.current{background:#1e2b20;border-left:2px solid #c9f34b;padding-left:10px}.watch-widget{display:none}.real-main{display:grid;grid-template-rows:118px 560px auto}.company-data{display:grid;grid-template-columns:.8fr 1.2fr;min-height:520px;border-top:1px solid #2d382f}.company-data section{min-width:0;border-right:1px solid #2d382f;display:grid;grid-template-rows:39px 1fr}.company-data label{padding:13px 12px 0;color:#829083;font:9px 'DM Mono',monospace;border-bottom:1px solid #293329}.company-data .tradingview-widget-container{height:100%;min-height:480px}.real-side{position:sticky;top:0;height:calc(100vh - 126px)}@media(max-width:900px){.company-data{grid-template-columns:1fr}.company-data section{min-height:520px}}@media(max-width:700px){.real-watchlist{position:static;height:126px;display:block}.real-watchlist>label{display:block}.symbol-search{display:flex}.company-list{display:flex;overflow-x:auto;height:45px;min-height:45px}.company-list>button{min-width:90px;min-height:44px;padding:7px}.company-list>button i{display:none}.real-main{height:auto;grid-template-rows:110px 430px auto}.company-data{display:block}.company-data section{min-height:500px}}
+
+/* Search and responsive workspace. */
+.terminal-loading { display: grid; place-items: center; }
+.real-terminal .selector { margin: 0; font-weight: 400; }
+.market-filters { display: flex; padding: 10px 10px 0; gap: 5px; }
+.market-filters button { flex: 1; padding: 7px; border: 1px solid #344035; border-radius: 4px; background: transparent; color: #a9b8a8; font-size: 10px; }
+.market-filters button[aria-pressed="true"] { background: #c9f34b; color: #172018; border-color: #c9f34b; }
+.search-count { color: #a9b8a8; font: 10px/1.5 'DM Mono', monospace; padding: 0 12px; }
+.search-empty { padding: 12px; color: #a9b8a8; line-height: 1.8; }
+.company-list > button:hover { background: #233426; }
+.company-list > button span { color: #a1afa1; max-width: 100%; }
+.real-layout { grid-template-columns: 230px minmax(0, 1fr) 230px; }
+.real-main { grid-template-rows: 118px 560px auto; }
+.real-source { min-height: 39px; height: auto; padding-block: 10px; line-height: 1.5; }
+@media (max-width: 1100px) { .real-layout { grid-template-columns: 210px minmax(0, 1fr); } .real-side { display: none; } .real-terminal .headTools .lime { display: none; } }
+@media (max-width: 700px) {
+  .real-layout { display: block; }
+  .real-terminal header { gap: 14px; }
+  .real-terminal .headTools a { display: block; }
+  .real-terminal .headTools a:nth-child(2) { display: none; }
+  .real-watchlist { height: auto; overflow: visible; }
+  .real-watchlist > label { height: auto; padding: 13px 12px; }
+  .symbol-search { height: 48px; }
+  .symbol-search input { font-size: 16px; }
+  .market-filters { max-width: 280px; }
+  .search-count { margin-block: 8px; }
+  .company-list { height: 66px; min-height: 66px; }
+  .company-list > button { min-width: 135px; max-width: 150px; padding: 10px; }
+  .search-empty { margin: 0; padding-block: 0; font-size: 11px; }
+  .real-main { grid-template-rows: 118px 430px auto; }
+  .real-source { flex-wrap: wrap; }
+  .real-source a { margin-left: 0; }
+}
+.widget-shell { position: relative; height: 100%; width: 100%; min-height: 100px; }
+.widget-shell > .tradingview-widget-container { height: 100%; width: 100%; }
+.widget-state { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; background: #101713; color: #b4c2ae; text-align: center; font: 11px/1.5 'DM Mono', monospace; }
+.widget-state > div { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; }
+.widget-state button { border: 1px solid #6e864c; border-radius: 4px; background: #243622; color: #e2eeda; padding: 8px 12px; }
+.widget-state a { color: #c9f34b; }
+.company-data .widget-shell { min-height: 480px; }
+@media (max-width: 700px) {
+  .real-terminal header .selector { display: block; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+  .real-terminal .headTools { flex-shrink: 0; }
+}

@@ -22,8 +22,10 @@ export async function GET(
         "X-Market-Data-Source": snapshot.source,
       },
     });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Market data unavailable";
-    return NextResponse.json({ error: message }, { status: 503 });
+  } catch {
+    return NextResponse.json(
+      { error: "Licensed market data is not available. View charts in the terminal via TradingView." },
+      { status: 503, headers: { "Cache-Control": "no-store" } },
+    );
   }
 }

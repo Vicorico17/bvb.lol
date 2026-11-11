@@ -34,6 +34,32 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+Company links such as `/terminal?symbol=TLV` can be bookmarked or shared. Search
+by company name or ticker, filter the catalogue by Main/AeRO, or submit a ticker
+for direct TradingView lookup. Browser back/forward restores the selected ticker.
+
+The Synthetic Lab stores a versioned portfolio in this browser. Its chart uses
+the same generated prices as its orders, and total P&L includes closed positions.
+This is a simplified learning sandbox: no fees, margin requirements, liquidity
+constraints or real-market price tracking. Reset requires an explicit second click.
+
+## Checks
+
+Use Node.js 22.18+ and run:
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run test:e2e
+```
+
+Browser tests use installed Google Chrome and start a local server automatically.
+They cover ticker navigation, search, blocked third-party embeds, paper orders,
+storage failures, and phone/tablet/desktop layouts. TradingView requests are
+blocked in these tests so checks do not depend on exchange or widget availability.
+
 ## Contributing
 
 Issues and pull requests are welcome. Good first contributions include Romanian/English copy, accessibility, issuer-event parsers, and clearly licensed data adapters.

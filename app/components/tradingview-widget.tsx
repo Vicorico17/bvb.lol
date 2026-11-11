@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type WidgetKind = "advanced-chart" | "symbol-info" | "market-overview" | "company-profile" | "financials";
 
@@ -22,10 +22,28 @@ export function TradingViewWidget({
   className?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (!container.current) return;
-    container.current.replaceChildren();
+    const root = container.current;
+    if (!root) return;
+    root.replaceChildren();
+    let disposed = false;
+    const listeners: Array<() => void> = [];
+    const timer = window.setTimeout(() => { if (!disposed) setStatus("error"); }, 20000);
+    const ready = () => {
+      if (!disposed) { window.clearTimeout(timer); setStatus("ready"); }
+    };
+    const observer = new MutationObserver(() => {
+      for (const frame of root.querySelectorAll("iframe:not([data-observed])")) {
+        frame.setAttribute("data-observed", "true");
+        frame.setAttribute("title", `TradingView ${kind.replaceAll("-", " ")}`);
+        frame.addEventListener("load", ready);
+        listeners.push(() => frame.removeEventListener("load", ready));
+      }
+    });
+    observer.observe(root, { childList: true, subtree: true });
 
     const host = document.createElement("div");
     host.className = "tradingview-widget-container__widget";
@@ -37,9 +55,24 @@ export function TradingViewWidget({
     script.type = "text/javascript";
     script.async = true;
     script.textContent = JSON.stringify(config);
+    script.onerror = () => { if (!disposed) { window.clearTimeout(timer); setStatus("error"); } };
 
-    container.current.append(host, script);
-  }, [kind, config]);
+    root.append(host, script);
+    return () => {
+      disposed = true;
+      window.clearTimeout(timer);
+      observer.disconnect();
+      listeners.forEach((remove) => remove());
+      script.onerror = null;
+      root.replaceChildren();
+    };
+  }, [kind, config, attempt]);
 
-  return <div ref={container} className={`tradingview-widget-container ${className}`} />;
+  const symbol = typeof config.symbol === "string" ? config.symbol.replace(":", "-") : "BVB-H2O";
+  return <div className={`widget-shell ${className}`} aria-busy={status === "loading"}>
+    <div ref={container} className="tradingview-widget-container" />
+    {status !== "ready" && <div className="widget-state" role="status">
+      {status === "loading" ? <span>Loading TradingView…</span> : <><span>TradingView could not be loaded.</span><div><button onClick={() => { setStatus("loading"); setAttempt((value) => value + 1); }}>Try again</button><a href={`https://www.tradingview.com/symbols/${encodeURIComponent(symbol)}/`} target="_blank" rel="noopener noreferrer">View on TradingView ↗</a></div></>}
+    </div>}
+  </div>;
 }

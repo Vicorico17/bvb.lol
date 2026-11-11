@@ -8,7 +8,9 @@ import type { MarketDataProvider, MarketSnapshot } from "./types";
  * raw licensed feed payloads from reaching the browser.
  */
 export class BvbMarketDataProvider implements MarketDataProvider {
-  async getSnapshot(_symbol: string): Promise<MarketSnapshot> {
+  async getSnapshot(symbol: string): Promise<MarketSnapshot> {
+    // Reserved for the licensed provider's eventual instrument lookup.
+    void symbol;
     const endpoint = process.env.BVB_MARKET_DATA_URL;
     const username = process.env.BVB_MARKET_DATA_USERNAME;
     const password = process.env.BVB_MARKET_DATA_PASSWORD;
